@@ -19,16 +19,16 @@ class GatlingSpec extends Simulation {
     // For reference, this hits 25% CPU on a 5820K with 32 GB, running both server and load test.
     // In general, you want to ramp up load slowly, and measure with a JVM that has been "warmed up":
     // https://groups.google.com/forum/#!topic/gatling/mD15aj-fyo4
-    readClients.inject(rampUsers(10000) over (100 seconds)).protocols(httpConf)
+    readClients.inject(rampUsers(10000) over (200 seconds)).protocols(httpConf)
   )
 }
 
 object Index {
 
   def refreshAfterOneSecond =
-    exec(http("Index").get("/").check(status.is(200))).pause(1)
+    exec(http("Index").get("/").check(status.is(200)))
 
-  val refreshManyTimes = repeat(10000) {
+  val refreshManyTimes = repeat(200) {
     refreshAfterOneSecond
   }
 }
